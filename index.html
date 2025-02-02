@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Активная разработка с использованием ИИ</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            font-family: Tahoma, Arial, Verdana, sans-serif;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            width: 100%;
+            font-size: 3rem;
+            padding: 1rem;
+            text-shadow: 2px 2px 1px black;
+            background-color: darkgreen;
+        }
+
+        .slider-wrapper {
+            background-color: black;
+            width: 100%;
+            height: calc(100vh - 3rem);
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .slider-wrapper .left, .slider-wrapper .right {
+            width: 50%;
+            height: 100%;
+            background-size: cover;
+            opacity: 0;
+            transition: opacity 2s linear;
+            animation: backgroundFade1 30s infinite 0s;
+        }
+
+        .slider-wrapper .left {
+            background: url(./kengubol/assets/images/logo1.webp);
+        }
+
+        .slider-wrapper .right {
+            background: url(./kengubol/assets/images/logo2.webp);
+        }
+
+        /* Анимация смены фонов */
+        @keyframes backgroundFade1 {
+            0% { opacity: 0; background: url(./kengubol/assets/images/logo1.webp);}
+            10% { opacity: 1; background: url(./kengubol/assets/images/logo1.webp);}
+            11% { opacity: 0; background: url(./kengubol/assets/images/logo1.webp);}
+            12% { opacity: 0; background: url(./kengubol/assets/images/logo2.webp);}
+            22% { opacity: 1; background: url(./kengubol/assets/images/logo2.webp);}
+            23% { opacity: 0; background: url(./kengubol/assets/images/logo2.webp);}
+            24% { opacity: 0; background: url(./kengubol/assets/images/logo3.webp);}
+            34% { opacity: 1; background: url(./kengubol/assets/images/logo3.webp);}
+            35% { opacity: 0; background: url(./kengubol/assets/images/logo3.webp);}
+            36% { opacity: 0; background: url(./kengubol/assets/images/logo4.webp);}
+            46% { opacity: 1; background: url(./kengubol/assets/images/logo4.webp);}
+            47% { opacity: 0; background: url(./kengubol/assets/images/logo4.webp);}
+            48% { opacity: 0; background: url(./kengubol/assets/images/logo5.webp);}
+            58% { opacity: 1; background: url(./kengubol/assets/images/logo5.webp);}
+            59% { opacity: 0; background: url(./kengubol/assets/images/logo5.webp);}
+            60% { opacity: 0; background: url(./kengubol/assets/images/logo6.webp);}
+            70% { opacity: 1; background: url(./kengubol/assets/images/logo6.webp);}
+            71% { opacity: 0; background: url(./kengubol/assets/images/logo6.webp);}
+            72% { opacity: 0; background: url(./kengubol/assets/images/logo7.webp);}
+            82% { opacity: 1; background: url(./kengubol/assets/images/logo7.webp);}
+            83% { opacity: 0; background: url(./kengubol/assets/images/logo7.webp);}
+            84% { opacity: 0; background: url(./kengubol/assets/images/logo8.webp);}
+            94% { opacity: 1; background: url(./kengubol/assets/images/logo8.webp);}
+            95% { opacity: 0; background: url(./kengubol/assets/images/logo8.webp);}
+        }
+
+    </style>
+</head>
+<body>
+    <header>Идет активная разработка новой версии старого проекта...</header>
+    <div class="slider-wrapper">
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
+</body>
+</html>
