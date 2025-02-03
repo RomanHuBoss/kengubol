@@ -1,5 +1,6 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
-from core.models import Continent, Federation, Country
+from core.models import Continent, Federation, Country, Language
 
 # Данные о федерациях и континентах
 FEDERATIONS = [
@@ -295,6 +296,33 @@ COUNTRIES_BY_FEDERATION = {
     # Добавить остальные конфедерации
 }
 
+country_language_dict = {
+    "ASA": "en", "COK": "en", "FJI": "en", "NCL": "fr", "NZL": "en", "PNG": "en", "SAM": "en", "SOL": "en",
+    "TAH": "fr", "TGA": "en", "VAN": "en", "AFG": "en", "AUS": "en", "BHR": "ar", "BAN": "bn", "BTN": "en",
+    "BRN": "en", "CAM": "km", "CHN": "zh", "HKG": "zh", "IND": "hi", "IDN": "id", "IRN": "fa", "IRQ": "ar",
+    "JPN": "ja", "JOR": "ar", "KOR": "ko", "KUW": "ar", "KGZ": "en", "LAO": "en", "LBN": "ar", "MAC": "zh",
+    "MAS": "en", "MDV": "en", "MNG": "mn", "MYA": "en", "NEP": "en", "OMA": "ar", "PAK": "en", "PAL": "ar",
+    "PHI": "en", "QAT": "ar", "KSA": "ar", "SGP": "en", "SRI": "en", "SYR": "ar", "TJK": "en", "THA": "th",
+    "TLS": "pt", "TKM": "en", "UAE": "ar", "UZB": "uz", "VIE": "vi", "ALG": "ar", "ANG": "pt", "BEN": "fr",
+    "BFA": "fr", "BDI": "fr", "BOT": "en", "CPV": "pt", "CMR": "fr", "CAF": "fr", "CHA": "fr", "COM": "fr",
+    "CGO": "fr", "COD": "fr", "CIV": "fr", "DJI": "fr", "EGY": "ar", "EQG": "es", "ERI": "en", "ETH": "en",
+    "GAB": "fr", "GAM": "en", "GHA": "en", "GUI": "fr", "GNB": "pt", "KEN": "en", "LES": "en", "LBR": "en",
+    "LBY": "ar", "MAD": "en", "MWI": "en", "MLI": "fr", "MAR": "ar", "MTN": "fr", "MOZ": "pt", "NAM": "en",
+    "NGA": "en", "RWA": "en", "SEN": "fr", "ZAF": "en", "ZAM": "en", "ZIM": "en", "AIA": "en", "ATG": "en",
+    "ABW": "nl", "BAH": "en", "BRB": "en", "BLZ": "en", "BER": "en", "VGB": "en", "CAN": "en", "CAY": "en",
+    "CRC": "es", "CUB": "es", "CUW": "nl", "DMA": "en", "DOM": "es", "SLV": "es", "GRD": "en", "GUA": "es",
+    "GUY": "en", "HAI": "fr", "HON": "es", "JAM": "en", "MTQ": "fr", "MEX": "es", "MSR": "en", "NCA": "es",
+    "PAN": "es", "PUR": "es", "SKN": "en", "LCA": "en", "VCT": "en", "SUR": "nl", "TCA": "en", "TTO": "en",
+    "USA": "en", "VIR": "en", "ARG": "es", "BOL": "es", "BRA": "pt", "CHI": "es", "COL": "es", "ECU": "es",
+    "PAR": "es", "PER": "es", "URU": "es", "VEN": "es", "ALB": "en", "AND": "ca", "ARM": "hy", "AUT": "de",
+    "AZE": "az", "BEL": "nl", "BIH": "en", "BLR": "en", "CRO": "hr", "CYP": "el", "CZE": "cs", "DEN": "da",
+    "ENG": "en", "EST": "et", "FIN": "fi", "FRA": "fr", "GEO": "ka", "GER": "de", "GIB": "en", "GRE": "el",
+    "HUN": "hu", "ISL": "en", "IRL": "en", "ISR": "he", "ITA": "it", "KAZ": "kk", "LVA": "lv", "LIE": "de",
+    "LTU": "lt", "LUX": "en", "MLT": "en", "MDA": "ro", "MON": "fr", "MNE": "sr", "NED": "nl", "MKD": "en",
+    "NOR": "no", "POL": "pl", "POR": "pt", "ROU": "ro", "RUS": "ru", "SCO": "en", "SMR": "it", "SRB": "sr",
+    "SVK": "sk", "SVN": "sl", "ESP": "es", "SWE": "sv", "SUI": "de", "TUR": "tr", "UKR": "ua", "WAL": "en"
+}
+
 
 class Command(BaseCommand):
     help = "Заполняет базу данных федерациями и странами"
@@ -307,12 +335,20 @@ class Command(BaseCommand):
             )
 
             for code, short_name, full_name, flag, description in COUNTRIES_BY_FEDERATION.get(short_name, []):
+                language_code = country_language_dict[code]
+                language = None
+                try:
+                    language = Language.objects.get(code=language_code)
+                except ObjectDoesNotExist:
+                    language = Language.objects.get(code="en")
+
                 Country.objects.get_or_create(
                     code=code,
                     short_name=short_name,
                     full_name=full_name,
                     flag=flag,
                     description=description,
-                    federation=federation
+                    federation=federation,
+                    language=language
                 )
         self.stdout.write(self.style.SUCCESS("База данных успешно заполнена!"))
